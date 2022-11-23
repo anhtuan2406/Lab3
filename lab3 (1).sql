@@ -67,25 +67,15 @@ HAVING (COUNT(dbo.THANNHAN.MA_NVIEN) > 2)
 --Cho biết tuổi của các nhân viên tính đến thời điểm hiện tại.
 --Dựa vào dữ liệu NGSINH, cho biết nhân viên sinh vào thứ mấy.
 -- Cho biết số lượng nhân viên, tên trưởng phòng, ngày nhận chức trưởng phòng và ngày nhận chức trưởng phòng hiển thi theo định dạng dd-mm-yy (ví dụ 25-04-2019)
-select *from NHANVIEN
-	where Year(NGSINH) Between 1960 and 1965
-
-select TENNV, year (getdate()) - year (ngsinh) as 'Tuoi' from NHANVIEN
-
-select tennv ,ngsinh case
-	when dayofweek (ngsinh) = '1' then 'Thứ 2'
-	when dayofweek (ngsinh) = '2' then 'Thứ 3'
-	when dayofweek (ngsinh) = '3' then 'Thứ 4'
-	when dayofweek (ngsinh) = '4' then 'Thứ 5'
-	when dayofweek (ngsinh) = '5' then 'Thứ 6'
-	when dayofweek (ngsinh) = '6' then 'Thứ 7'
-	when dayofweek (ngsinh) = '7' then 'Chủ Nhật'
-	else 'Không phải là thứ mấy cả'
-end
-from NHANVIEN
-
-select convert(varchar , ngsinh , 105 ) as 'Ngay sinh' from NhanVien
-
+  SELECT HONV,TENLOT,TENNV
+  FROM NHANVIEN
+  where Year(NGSINH) Between 1960 and 1965
+  SELECT HONV,TENLOT,TENNV,YEAR(GETDATE())-YEAR(NGSINH) AS TUOI
+  FROM NHANVIEN
+  SELECT TENPHG, CONVERT(VARCHAR, NG_NHANCHUC,105) AS 'NGAY SINH',HONV,TENLOT,TENNV,COUNT(*) NHANVIEN
+  FROM PHONGBAN, NHANVIEN
+  WHERE   MANV=TRPHG and MAPHG=PHG
+  GROUP BY TENPHG,NG_NHANCHUC,HONV,TENLOT,TENNV
 
 
 
